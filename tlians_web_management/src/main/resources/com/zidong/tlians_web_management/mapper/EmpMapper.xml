@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zidong.tlians_web_management.mapper.EmpMapper">
+    <insert id="insertEmp">
+        insert into emp(image, username, name, gender, job, entrydate, dept_id, create_time, update_time)
+            values (#{image}, #{username}, #{name}, #{gender}, #{job}, #{entrydate}, #{deptId}, #{createTime}, #{updateTime})
+    </insert>
+    <update id="updateEmp">
+        UPDATE emp
+        <set>
+            <if test="image != null and image!= ''">image = #{image},</if>
+            <if test="username != null and username != ''">username = #{username},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="gender != null and gender != ''">gender = #{gender},</if>
+            <if test="job != null and job != ''">job = #{job},</if>
+            <if test="entrydate != null">entrydate = #{entrydate},</if>
+            <if test="deptId != null and deptId != ''">dept_id = #{deptId},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteByIds">
+        delete from emp where id in
+        <foreach collection="idArray" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="rows" resultType="com.zidong.tlians_web_management.pojo.Emp">
+        select *
+        from emp
+        <where>
+        <if test="name != null">name like concat('%', #{name}, '%')</if>
+        <if test="gender != null">and gender = #{gender}</if>
+        <if test="begin != null and end != null">and entrydate between #{begin} and #{end}</if>
+        </where>
+        order by update_time desc
+        limit #{start}, #{pageSize}
+    </select>
+    <select id="getById" resultType="com.zidong.tlians_web_management.pojo.Emp">
+        select * from emp where id = #{id}
+    </select>
+    <select id="getByUsernameAndPassword" resultType="com.zidong.tlians_web_management.pojo.Emp">
+        select * from emp where username = #{username} and password = #{password}
+    </select>
+
+</mapper>
