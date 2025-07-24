@@ -1,4 +1,4 @@
-# Tlians Web Management 系统
+# Web Management 系统
 
 该项目是一个基于 Spring Boot 的后台管理系统，采用多模块 Maven 工程设计，结构清晰，功能分层明确。适用于企业级管理系统构建、权限验证、操作日志审计、部门与员工信息维护等场景。
 
